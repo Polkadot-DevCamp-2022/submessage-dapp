@@ -8,6 +8,7 @@ import {DeveloperConsole} from './substrate-lib/components'
 import AccountSelector from './AccountSelector'
 import Events from './Events'
 import Messaging from "./Messaging";
+import SubMessage from './submessage'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -49,6 +50,7 @@ function Main() {
         <AccountSelector />
       </Sticky>
       <Container>
+        <SubMessage />
         <Grid stackable columns="equal">
           <Grid.Row>
             <Events />
