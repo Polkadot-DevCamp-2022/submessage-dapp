@@ -1,5 +1,5 @@
 import { Grid } from 'semantic-ui-react'
-import { NewMessage, Contacts, Conversation } from './components'
+import { NewMessage, Contacts, Chat } from './components'
 
 const SubMessage = () => <Grid celled>
   <Grid.Row>
@@ -15,8 +15,8 @@ const SubMessage = () => <Grid celled>
         </Grid.Column>
       </Grid.Row>
     </Grid.Column>
-    <Grid.Column width={10}>
-      <Conversation />
+    <Grid.Column width={11}>
+      <Chat />
     </Grid.Column>
   </Grid.Row>
 </Grid>

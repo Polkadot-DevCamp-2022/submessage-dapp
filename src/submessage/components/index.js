@@ -1,5 +1,5 @@
 import Contacts from './Contacts'
 import NewMessage from './NewMessage'
-import Conversation from './Conversation'
+import Chat from './chat'
 
-export { Contacts, NewMessage, Conversation }
+export { Contacts, NewMessage, Chat }
