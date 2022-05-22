@@ -12295,12 +12295,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semantic-ui-css@npm:2.4.1":
+"semantic-ui-css@Semantic-Org/Semantic-UI-CSS#master":
   version: 2.4.1
-  resolution: "semantic-ui-css@npm:2.4.1"
+  resolution: "semantic-ui-css@https://github.com/Semantic-Org/Semantic-UI-CSS.git#commit=01e4a5346496c284db3b19a102458731ccccd911"
   dependencies:
     jquery: x.*
-  checksum: 6351d9bfbeed667a39b9cde08372865bd04612450103aabff174bc46558ad1ac123157cab2716670019abf5a70f56a77d79d082b4043d8893ed350b9a6fed837
+  checksum: 22242a7dc7b4ffeeb9f83e5da2592db4ad5888c1c893b98437259b6db6e419641e82c96ebfc8266e5642d5219f751671a9f1831237c4a68235b7d995b14541be
   languageName: node
   linkType: hard
 
@@ -13011,7 +13011,7 @@ __metadata:
     react-copy-to-clipboard: ^5.0.4
     react-dom: ^17.0.2
     react-scripts: ^5.0.0
-    semantic-ui-css: 2.4.1
+    semantic-ui-css: "Semantic-Org/Semantic-UI-CSS#master"
     semantic-ui-react: ^2.1.2
     semistandard: ^16.0.1
     stream-browserify: ^3.0.0
