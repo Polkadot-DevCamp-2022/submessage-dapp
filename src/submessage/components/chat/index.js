@@ -1,28 +1,14 @@
 import React, { useState } from "react"
+import { useSubstrateState } from '../../../substrate-lib'
 import { Container, Divider, Segment, Header, Icon } from 'semantic-ui-react'
 import MessageHeader from './MessageHeader'
 import MessageBody from './MessageBody'
-import MessageFooter from './MessageFooter'
+import MessageSender from '../MessageSender'
 
 // REF: https://ordinarycoders.com/blog/article/react-chakra-ui
-const Chat = () => {
-  const [messages, setMessages] = useState([
-  ])
-  const [inputMessage, setInputMessage] = useState("")
+const Chat = ({ handleReloadMessages, messages, sender, recipient, commonKey, channelId }) => {
 
-  const handleSendMessage = () => {
-    if (!inputMessage.trim().length) {
-      return
-    }
-    const data = inputMessage
-
-    setMessages((old) => [...old, { from: "me", text: data }])
-    setInputMessage("")
-
-    setTimeout(() => {
-      setMessages((old) => [...old, { from: "computer", text: data }])
-    }, 1000)
-  }
+  console.log('messages', messages)
 
   if (!messages.length) {
     return (
@@ -34,16 +20,32 @@ const Chat = () => {
       </Segment>
     )
   } else {
+    const { keyring } = useSubstrateState()
+    const keyringOptions = keyring.getPairs()
+        .filter(account => account.address === recipient)
+        .map(account => ({
+            name: account.meta.name.toUpperCase()
+         }))
+
+    console.log('keyringOptions', keyringOptions)
+
     return (
       <Container>
-        <MessageHeader />
+        <MessageHeader recipientAddress={recipient} 
+                       recipientName={keyringOptions[0].name} />
         <Divider />
-        <MessageBody messages={messages} />
+        <MessageBody handleReloadMessages={handleReloadMessages} 
+                     messages={messages}
+                     sender={sender} 
+                     recipient={recipient}
+                     recipientName={keyringOptions[0].name} 
+                     commonKey={commonKey} 
+                     />
         <Divider />
-        <MessageFooter
-          inputMessage={inputMessage}
-          setInputMessage={setInputMessage}
-          handleSendMessage={handleSendMessage} />
+        <MessageSender handleReloadMessages={handleReloadMessages} 
+                       recipient={recipient} 
+                       commonKey={commonKey} 
+                       channelId={channelId} />
       </Container>
     )
   }

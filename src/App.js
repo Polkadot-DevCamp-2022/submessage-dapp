@@ -9,6 +9,8 @@ import AccountSelector from './AccountSelector'
 import Events from './Events'
 import Messaging from "./Messaging";
 import SubMessage from './submessage'
+import Balances from './Balances'
+import Transfer from './Transfer'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -55,6 +57,12 @@ function Main() {
           <Grid.Row>
             <Events />
             <Messaging />
+          </Grid.Row>
+        </Grid>
+        <Grid celled>
+          <Grid.Row>
+            <Grid.Column width={5}><Transfer /></Grid.Column>
+            <Grid.Column width={11}><Balances /></Grid.Column>
           </Grid.Row>
         </Grid>
       </Container>

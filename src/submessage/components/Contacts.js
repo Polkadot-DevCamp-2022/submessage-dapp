@@ -1,33 +1,43 @@
+import { useSubstrateState } from '../../substrate-lib'
 import { List } from 'semantic-ui-react'
 import Avatar from 'react-avatar';
 
-const Contacts = () => {
+const Contacts = ({ sender, recipient, setRecipient }) => {
   const round = "5px"
   const size = "30"
   const style = { marginRight: '.5rem' }
-  
+
+  const { keyring } = useSubstrateState()
+
+  const onClickListItem = (address) => {
+    console.log('address', address)
+    if (recipient !== address) {
+      setRecipient(address)
+    }
+  }
+
+  keyring.getPairs()
+    .filter(account => account.address !== sender)
+    .map(account => ({
+      address: account.address,
+      name: account.meta.name.toUpperCase(),
+    }))
+
   return (
     <List selection verticalAlign='middle'>
-      <List.Item>
-        <List.Content>
-          <List.Header><Avatar name="Helen" round={round} size={size} style={style} />Helen</List.Header>
-        </List.Content>
-      </List.Item>
-      <List.Item>
-        <List.Content>
-          <List.Header><Avatar name="Christian" round={round} size={size} style={style} />Christian</List.Header>
-        </List.Content>
-      </List.Item>
-      <List.Item>
-        <List.Content>
-          <List.Header><Avatar name="Daniel" round={round} size={size} style={style} />Daniel</List.Header>
-        </List.Content>
-      </List.Item>
-      <List.Item>
-        <List.Content>
-          <List.Header><Avatar name="John Dow" round={round} size={size} style={style} />John Dow</List.Header>
-        </List.Content>
-      </List.Item>
+      {keyring.getPairs()
+        .filter(account => account.address !== sender)
+        .map(account => (
+          <List.Item key={account.address} onClick={()=>onClickListItem(account.address)}>
+            <List.Content>
+              <List.Header>
+                <Avatar name={account.meta.name.toUpperCase()} round={round} size={size} style={style} />
+                {account.meta.name.toUpperCase()}
+              </List.Header>
+            </List.Content>
+          </List.Item>
+        ))
+      }
     </List>
   )
 }

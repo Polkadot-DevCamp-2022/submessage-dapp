@@ -1,31 +1,56 @@
+import React, { useEffect } from "react"
 import { Container, Message, Grid } from 'semantic-ui-react'
 import Avatar from 'react-avatar'
+import { u8aToString } from '@polkadot/util';
+import { naclDecrypt } from '@polkadot/util-crypto';
 
-const MessageBody = ({ messages }) => {
+
+const MessageBody = ({ handleReloadMessages, messages, sender, recipient, recipientName, commonKey }) => {
   const messageStyle = {
     marginTop: '.3rem',
     marginBottom: '.3rem',
     padding: '.5rem'
   }
 
+  useEffect(() => {
+    let unsub,
+        mounted = true;
+
+    (async () => {
+        unsub = await handleReloadMessages();
+        return unsub;
+    })().then(unsub => {
+        if (!mounted) {
+            unsub && unsub();
+        }
+    });
+
+    return () => {
+        mounted = false;
+        unsub && unsub();
+    };
+  }, [recipient]);
+
   return (
     <Container>
-      {messages.map((item, index) => {
-        if (item.from === "me") {
+      { messages.map(message => {
+        const isSender = message.sender.toString() === sender;
+        const text = u8aToString(naclDecrypt(message.content.asEncrypted, message.nonce, commonKey))
+        if (isSender) {
           return (
-            <Container textAlign="right" key={index}>
-              <Message compact color="black" style={messageStyle}>{item.text}</Message>
+            <Container textAlign="right" key={message.id}>
+              <Message compact color="black" style={messageStyle}>{text}</Message>
             </Container>
           )
         } else {
           return (
-            <Grid key={index}>
+            <Grid key={message.id}>
               <Grid.Row>
                 <Grid.Column width={1}>
-                  <Avatar name="John Dow" round="20px" size="40" />
+                  <Avatar name={recipientName} round="20px" size="40" />
                 </Grid.Column>
                 <Grid.Column width={15}>
-                  <Message compact color="teal" style={messageStyle}>{item.text}</Message>
+                  <Message compact color="teal" style={messageStyle}>{text}</Message>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
