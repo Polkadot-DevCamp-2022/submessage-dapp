@@ -1,35 +1,15 @@
-import React, { useEffect } from "react"
 import { Container, Message, Grid } from 'semantic-ui-react'
 import Avatar from 'react-avatar'
 import { u8aToString } from '@polkadot/util';
 import { naclDecrypt } from '@polkadot/util-crypto';
 
 
-const MessageBody = ({ handleReloadMessages, messages, sender, recipient, recipientName, commonKey }) => {
+const MessageBody = ({ messages, sender, recipientName, commonKey }) => {
   const messageStyle = {
     marginTop: '.3rem',
     marginBottom: '.3rem',
     padding: '.5rem'
   }
-
-  useEffect(() => {
-    let unsub,
-        mounted = true;
-
-    (async () => {
-        unsub = await handleReloadMessages();
-        return unsub;
-    })().then(unsub => {
-        if (!mounted) {
-            unsub && unsub();
-        }
-    });
-
-    return () => {
-        mounted = false;
-        unsub && unsub();
-    };
-  }, [recipient]);
 
   return (
     <Container>

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useSubstrateState } from '../../../substrate-lib'
 import { Container, Divider, Segment, Header, Icon } from 'semantic-ui-react'
 import MessageHeader from './MessageHeader'
@@ -9,6 +9,25 @@ import MessageSender from '../MessageSender'
 const Chat = ({ handleReloadMessages, messages, sender, recipient, commonKey, channelId }) => {
 
   console.log('messages', messages)
+
+  useEffect(() => {
+    let unsub,
+        mounted = true;
+
+    (async () => {
+        unsub = await handleReloadMessages();
+        return unsub;
+    })().then(unsub => {
+        if (!mounted) {
+            unsub && unsub();
+        }
+    });
+
+    return () => {
+        mounted = false;
+        unsub && unsub();
+    };
+  }, [recipient]);
 
   if (!messages.length) {
     return (
@@ -34,10 +53,8 @@ const Chat = ({ handleReloadMessages, messages, sender, recipient, commonKey, ch
         <MessageHeader recipientAddress={recipient} 
                        recipientName={keyringOptions[0].name} />
         <Divider />
-        <MessageBody handleReloadMessages={handleReloadMessages} 
-                     messages={messages}
+        <MessageBody messages={messages}
                      sender={sender} 
-                     recipient={recipient}
                      recipientName={keyringOptions[0].name} 
                      commonKey={commonKey} 
                      />
