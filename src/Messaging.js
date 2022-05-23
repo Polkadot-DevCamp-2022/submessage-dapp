@@ -69,8 +69,13 @@ function Main(props) {
         setOnSubmitting(true);
 
         const fromAcct = await getFromAcct()
+        const secret = randomAsU8a(32);
+        const messagePreEncryption = stringToU8a(newMessage);
+        const noncePreEncryption = randomAsU8a(24);
+        const { encrypted } = naclEncrypt(messagePreEncryption, secret, noncePreEncryption);
+        
         await api.tx.messaging
-            .newMessage(recipient, newMessage)
+            .newMessage(recipient, encrypted)
             .signAndSend(...fromAcct, ({ status }) => {
                 console.log(status);
                 if (status.isFinalized) {
