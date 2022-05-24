@@ -12,14 +12,13 @@ const Contacts = ({ sender, recipient, setRecipient }) => {
   const [contacts, setContacts] = useState([]);
 
   const onClickListItem = (address) => {
-    console.log('address', address)
+    console.log('selected address', address)
     if (recipient !== address) {
       setRecipient(address)
     }
   }
 
   useEffect(() => {
-    console.log('sender', sender)
     if (!sender) return;
 
     let unsubscribe

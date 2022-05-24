@@ -14,7 +14,6 @@ const MessageSender = ({ handleReloadMessages, recipient,
 
     const onChangeMessage = (_, { value }) => {
         setMessage(value)
-        console.log('message', value)
     }
 
     const submitMessage = async () => {

@@ -14,15 +14,12 @@ const SubMessage = () => {
 
 
   const handleReloadMessages = async () => {
-    console.log('sender', sender)
-    console.log('recipient', recipient)
     if (!sender || !recipient) {
       return;
     }
 
     const result = await api.query.messaging.channelIdByAccountIds(sender, recipient);
     const channelId = result.unwrapOr(null);
-    console.log('channelId', channelId)
     if (!channelId) {
       setChannelId(null);
       setCurrentMessages([]);
@@ -31,8 +28,7 @@ const SubMessage = () => {
 
     const commonKeyResult = await api.query.messaging.commonKeyByAccountIdChannelId(sender, channelId);
     const commonKey = commonKeyResult.unwrap();
-
-    console.log('CommonKey=', u8aToHex(commonKey));
+    
     setChannelId(channelId);
     setCommonKey(commonKey);
 

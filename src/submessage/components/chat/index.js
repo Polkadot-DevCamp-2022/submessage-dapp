@@ -8,8 +8,6 @@ import MessageSender from '../MessageSender'
 // REF: https://ordinarycoders.com/blog/article/react-chakra-ui
 const Chat = ({ handleReloadMessages, messages, sender, recipient, commonKey, channelId }) => {
 
-  console.log('messages', messages)
-
   useEffect(() => {
     let unsub,
         mounted = true;
@@ -45,8 +43,6 @@ const Chat = ({ handleReloadMessages, messages, sender, recipient, commonKey, ch
         .map(account => ({
             name: account.meta.name.toUpperCase()
          }))
-
-    console.log('keyringOptions', keyringOptions)
 
     return (
       <Container>
