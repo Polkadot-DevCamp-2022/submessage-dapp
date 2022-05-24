@@ -3,7 +3,7 @@ import {Dropdown, Grid, Input} from 'semantic-ui-react'
 
 import {useSubstrateState} from './substrate-lib'
 import {u8aToString, stringToU8a, u8aToHex} from '@polkadot/util';
-import {web3FromSource} from "@polkadot/extension-dapp";
+import {web3FromSource,web3Accounts, web3Enable,} from "@polkadot/extension-dapp";
 import moment from 'moment';
 
 import {
@@ -13,6 +13,7 @@ import {
 } from '@polkadot/util-crypto';
 
 function Main(props) {
+
     const {api, keyring, currentAccount} = useSubstrateState();
     const [currentMessages, setCurrentMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
@@ -136,12 +137,7 @@ function Main(props) {
             args = [u8aToHex(encrypted), u8aToHex(nonce), u8aToHex(commonKey), u8aToHex(commonKey)];
         }
 
-        const fromAcct = await getFromAcct()
-        const secret = randomAsU8a(32);
-        const messagePreEncryption = stringToU8a(newMessage);
-        const noncePreEncryption = randomAsU8a(24);
-        const { encrypted } = naclEncrypt(messagePreEncryption, secret, noncePreEncryption);
-        
+        const fromAcct = await getFromAcct()        
         await api.tx.messaging
             .newMessage(recipient, ...args)
             .signAndSend(...fromAcct, ({status, dispatchError}) => {
