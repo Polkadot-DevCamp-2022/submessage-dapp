@@ -59,8 +59,7 @@ const SubMessage = () => {
         <Divider />
         <Grid.Row>
           <Grid.Column>
-            <Contacts handleReloadMessages={handleReloadMessages}
-              sender={sender}
+            <Contacts sender={sender}
               recipient={recipient}
               setRecipient={setRecipient} />
           </Grid.Column>

@@ -27,7 +27,7 @@ const Chat = ({ handleReloadMessages, messages, sender, recipient, commonKey, ch
         mounted = false;
         unsub && unsub();
     };
-  }, [recipient]);
+  }, [sender, recipient]);
 
   if (!messages.length) {
     return (

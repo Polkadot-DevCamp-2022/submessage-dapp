@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react"
 import { useSubstrateState } from '../../substrate-lib'
 import { List } from 'semantic-ui-react'
 import Avatar from 'react-avatar';
@@ -7,7 +8,8 @@ const Contacts = ({ sender, recipient, setRecipient }) => {
   const size = "30"
   const style = { marginRight: '.5rem' }
 
-  const { keyring } = useSubstrateState()
+  const { api, keyring } = useSubstrateState()
+  const [contacts, setContacts] = useState([]);
 
   const onClickListItem = (address) => {
     console.log('address', address)
@@ -16,23 +18,42 @@ const Contacts = ({ sender, recipient, setRecipient }) => {
     }
   }
 
-  keyring.getPairs()
-    .filter(account => account.address !== sender)
-    .map(account => ({
-      address: account.address,
-      name: account.meta.name.toUpperCase(),
-    }))
+  useEffect(() => {
+    console.log('sender', sender)
+    if (!sender) return;
+
+    let unsubscribe
+
+    api.query.messaging.accountIdsByAccountId(sender, (maybeAccountIds) => {
+      const accountIds = maybeAccountIds.unwrapOrDefault([]).toArray().map(n => n.toString());
+      console.log('recent conversations with', accountIds);
+      if (accountIds.length) {
+        setContacts(keyring.getPairs()
+          .filter(account => accountIds.find(accountId => accountId === account.address))
+          .map(account => ({
+            address: account.address,
+            name: account.meta.name.toUpperCase(),
+          })))
+      }
+    }).then(unsub => {
+      unsubscribe = unsub
+    })
+    .catch(console.error)
+
+    return () => {
+      unsubscribe && unsubscribe();
+    };
+  }, [sender]);
 
   return (
     <List selection verticalAlign='middle' style={{ overflowY: "auto", height: "440px" }}>
-      {keyring.getPairs()
-        .filter(account => account.address !== sender)
-        .map(account => (
-          <List.Item key={account.address} onClick={()=>onClickListItem(account.address)}>
+      {
+        contacts.map(account => (
+          <List.Item key={account.address} onClick={() => onClickListItem(account.address)}>
             <List.Content>
               <List.Header>
-                <Avatar name={account.meta.name.toUpperCase()} round={round} size={size} style={style} />
-                {account.meta.name.toUpperCase()}
+                <Avatar name={account.name} round={round} size={size} style={style} />
+                {account.name}
               </List.Header>
             </List.Content>
           </List.Item>
