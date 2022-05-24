@@ -31,7 +31,7 @@ const Chat = ({ handleReloadMessages, messages, sender, recipient, commonKey, ch
 
   if (!messages.length) {
     return (
-      <Segment placeholder>
+      <Segment placeholder style={{height: "100%"}}>
         <Header icon>
           <Icon name="conversation">SubMessage</Icon>
           Your Private and Secure Messenger

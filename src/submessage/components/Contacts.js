@@ -24,7 +24,7 @@ const Contacts = ({ sender, recipient, setRecipient }) => {
     }))
 
   return (
-    <List selection verticalAlign='middle'>
+    <List selection verticalAlign='middle' style={{ overflowY: "auto", height: "440px" }}>
       {keyring.getPairs()
         .filter(account => account.address !== sender)
         .map(account => (

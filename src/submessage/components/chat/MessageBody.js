@@ -12,7 +12,7 @@ const MessageBody = ({ messages, sender, recipientName, commonKey }) => {
   }
 
   return (
-    <Container>
+    <Container style={{ overflowY: "auto", height: "400px" }}>
       { messages.map(message => {
         const isSender = message.sender.toString() === sender;
         const text = u8aToString(naclDecrypt(message.content.asEncrypted, message.nonce, commonKey))

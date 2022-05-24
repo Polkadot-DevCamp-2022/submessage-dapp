@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useSubstrateState } from '../substrate-lib'
 import { u8aToHex } from '@polkadot/util';
-import { Grid } from 'semantic-ui-react'
+import { Divider, Grid } from 'semantic-ui-react'
 import { NewMessage, Contacts, Chat } from './components'
 
 const SubMessage = () => {
@@ -54,6 +54,7 @@ const SubMessage = () => {
               setRecipient={setRecipient} />
           </Grid.Column>
         </Grid.Row>
+        <Divider />
         <Grid.Row>
           <Grid.Column>
             <Contacts handleReloadMessages={handleReloadMessages}
