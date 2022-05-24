@@ -53,18 +53,19 @@ function Main() {
       </Sticky>
       <Container>
         <SubMessage />
-        <Grid stackable columns="equal">
+        { /* <Grid stackable columns="equal">
           <Grid.Row>
             <Events />
             <Messaging />
           </Grid.Row>
-        </Grid>
+        </Grid> */}
         <Grid celled>
           <Grid.Row>
             <Grid.Column width={5}><Transfer /></Grid.Column>
             <Grid.Column width={11}><Balances /></Grid.Column>
           </Grid.Row>
         </Grid>
+        <Events />
       </Container>
       <DeveloperConsole />
     </div>
