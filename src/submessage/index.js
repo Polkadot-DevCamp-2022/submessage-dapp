@@ -51,7 +51,9 @@ const SubMessage = () => {
             <NewMessage handleReloadMessages={handleReloadMessages}
               sender={sender}
               recipient={recipient}
-              setRecipient={setRecipient} />
+              setRecipient={setRecipient} 
+              commonKey={commonKey}
+              channelId={channelId} />
           </Grid.Column>
         </Grid.Row>
         <Divider />

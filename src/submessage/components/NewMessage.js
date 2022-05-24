@@ -3,7 +3,7 @@ import { useSubstrateState } from '../../substrate-lib'
 import { Form, Input, Icon, Dropdown, Progress, Label } from 'semantic-ui-react'
 import MessageSender from "./MessageSender"
 
-const NewMessage = ({ handleReloadMessages, sender, recipient, setRecipient }) => {
+const NewMessage = ({ handleReloadMessages, sender, recipient, setRecipient, commonKey, channelId }) => {
     const { keyring } = useSubstrateState()
 
     const keyringOptions = keyring.getPairs()
@@ -34,7 +34,12 @@ const NewMessage = ({ handleReloadMessages, sender, recipient, setRecipient }) =
                 />
             </Form.Field>
             <Form.Field>
-                <MessageSender handleReloadMessages={handleReloadMessages} recipient={recipient} />
+                <MessageSender 
+                    handleReloadMessages={handleReloadMessages} 
+                    recipient={recipient} 
+                    commonKey={commonKey}
+                    channelId={channelId} 
+                />
             </Form.Field>
         </Form>
     )
