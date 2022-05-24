@@ -3,10 +3,12 @@ import { Container, Message } from 'semantic-ui-react'
 import Avatar from 'react-avatar'
 import { u8aToString } from '@polkadot/util';
 import { naclDecrypt } from '@polkadot/util-crypto';
+import moment from 'moment';
 
 const MessageBody = ({ messages, sender, recipientName, commonKey }) => {
   const messageStyle = {
-    padding: '.5rem'
+    padding: '.5rem',
+    marginBottom: 0
   }
 
   const messageContainerStyle = {
@@ -37,6 +39,7 @@ const MessageBody = ({ messages, sender, recipientName, commonKey }) => {
           return (
             <Container textAlign="right" key={message.id} style={messageContainerStyle}>
               <Message compact color="black" style={messageStyle}>{text}</Message>
+              <div style={{fontStyle: 'italic', fontSize: 10}}>{moment(message.createdAt.toNumber()).fromNow()}</div>
             </Container>
           )
         } else {
@@ -47,6 +50,7 @@ const MessageBody = ({ messages, sender, recipientName, commonKey }) => {
               </div>
               <div style={{ marginLeft: "45px" }}>
                 <Message compact color="teal" style={messageStyle}>{text}</Message>
+                <div style={{fontStyle: 'italic', fontSize: 10}}>{moment(message.createdAt.toNumber()).fromNow()}</div>
               </div>
             </Container>
           )
