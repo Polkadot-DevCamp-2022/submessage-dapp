@@ -5,9 +5,10 @@ import { stringToU8a, u8aToHex } from '@polkadot/util';
 import { web3FromSource } from "@polkadot/extension-dapp";
 import { naclEncrypt, randomAsU8a } from '@polkadot/util-crypto';
 
-const MessageSender = ({ handleReloadMessages, recipient,
+
+const MessageSender = ({ handleReloadMessages, recipient, sender, 
     channelId, commonKey }) => {
-    const { api, currentAccount } = useSubstrateState()
+    const { api, currentAccount, keyring } = useSubstrateState()
     const [message, setMessage] = useState('');
     const [onSubmitting, setOnSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -26,10 +27,18 @@ const MessageSender = ({ handleReloadMessages, recipient,
             args = [u8aToHex(encrypted), u8aToHex(nonce), null, null];
         } else {
             const commonKey = randomAsU8a(32);
-            console.log('New Common Key Generated', u8aToHex(commonKey));
+            console.log('New Common Key Generated', u8aToHex(commonKey)); 
 
             const { encrypted, nonce } = naclEncrypt(stringToU8a(message), commonKey);
-            args = [u8aToHex(encrypted), u8aToHex(nonce), u8aToHex(commonKey), u8aToHex(commonKey)];
+            const senderPairs = keyring.getPairs().find(account => account.address === sender )
+            const recipientPairs = keyring.getPairs().find(account => account.address === recipient)
+            console.log("senderPairs.publicKey", u8aToHex(senderPairs.publicKey))
+            console.log("recipientPairs.publicKey", u8aToHex(recipientPairs.publicKey))
+            const senderEcryptedCommonKey = senderPairs.encryptMessage(commonKey, senderPairs.publicKey, nonce)
+            console.log("senderEcryptedCommonKey", senderEcryptedCommonKey)
+            const recipientEcryptedCommonKey = senderPairs.encryptMessage(commonKey, recipientPairs.publicKey, nonce)
+            console.log("recipientEcryptedCommonKey", recipientEcryptedCommonKey)
+            args = [u8aToHex(encrypted), u8aToHex(nonce), u8aToHex(senderEcryptedCommonKey), u8aToHex(recipientEcryptedCommonKey)];
         }
 
         const fromAcct = await getFromAcct()

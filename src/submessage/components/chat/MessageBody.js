@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { useSubstrateState } from '../../../substrate-lib'
 import { Container, Message } from 'semantic-ui-react'
 import Avatar from 'react-avatar'
 import { u8aToString } from '@polkadot/util';
@@ -6,6 +7,8 @@ import { naclDecrypt } from '@polkadot/util-crypto';
 import moment from 'moment';
 
 const MessageBody = ({ messages, sender, recipientName, commonKey }) => {
+  const { keyring, currentAccount } = useSubstrateState()
+
   const messageStyle = {
     padding: '.5rem',
     marginBottom: 0
@@ -29,12 +32,17 @@ const MessageBody = ({ messages, sender, recipientName, commonKey }) => {
 
   useEffect(scrollToBottom, [messages])
 
+  //const senderPairs = keyring.getPairs().find(account => account.address === sender)
+  
+  const senderPairs = currentAccount
+  console.log('currentAccount', currentAccount)
+  const senderDecryptedCommonKey = senderPairs.decryptMessage(commonKey, senderPairs.publicKey)
 
   return (
     <div style={{ overflowY: "auto", height: "400px" }} ref={messageContainerRef}>
       {messages.map(message => {
         const isSender = message.sender.toString() === sender;
-        const text = u8aToString(naclDecrypt(message.content.asEncrypted, message.nonce, commonKey))
+        const text = u8aToString(naclDecrypt(message.content.asEncrypted, message.nonce, senderDecryptedCommonKey))
         if (isSender) {
           return (
             <Container textAlign="right" key={message.id} style={messageContainerStyle}>

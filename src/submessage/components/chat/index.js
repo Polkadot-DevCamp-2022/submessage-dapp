@@ -56,7 +56,8 @@ const Chat = ({ handleReloadMessages, messages, sender, recipient, commonKey, ch
                      />
         <Divider />
         <MessageSender handleReloadMessages={handleReloadMessages} 
-                       recipient={recipient} 
+                       recipient={recipient}
+                       sender={sender} 
                        commonKey={commonKey} 
                        channelId={channelId} />
       </Container>

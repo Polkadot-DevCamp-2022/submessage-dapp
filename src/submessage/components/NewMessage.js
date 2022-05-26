@@ -37,6 +37,7 @@ const NewMessage = ({ handleReloadMessages, sender, recipient, setRecipient, com
                 <MessageSender 
                     handleReloadMessages={handleReloadMessages} 
                     recipient={recipient} 
+                    sender={sender}
                     commonKey={commonKey}
                     channelId={channelId} 
                 />
