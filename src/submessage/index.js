@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { useSubstrateState } from '../substrate-lib'
-import { u8aToHex } from '@polkadot/util';
 import { Divider, Grid } from 'semantic-ui-react'
 import { NewMessage, Contacts, Chat } from './components'
 
@@ -11,7 +10,6 @@ const SubMessage = () => {
   const [channelId, setChannelId] = useState()
   const [commonKey, setCommonKey] = useState()
   const [currentMessages, setCurrentMessages] = useState([]);
-
 
   const handleReloadMessages = async () => {
     if (!sender || !recipient) {

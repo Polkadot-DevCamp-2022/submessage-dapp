@@ -6,6 +6,7 @@ import { web3Accounts, web3Enable } from '@polkadot/extension-dapp'
 import { keyring as Keyring } from '@polkadot/ui-keyring'
 import { isTestChain } from '@polkadot/util'
 import { TypeRegistry } from '@polkadot/types/create'
+import { mnemonicGenerate } from '@polkadot/util-crypto';
 
 import config from '../config'
 
@@ -117,6 +118,12 @@ const loadAccounts = (state, dispatch) => {
         isTestChain(systemChain)
 
       Keyring.loadAll({ isDevelopment }, allAccounts)
+      
+      console.log(Keyring.getPairs().length, 'pairs available 1');
+      if (Keyring.getPairs().length === 10) {
+        Keyring.addPair(Keyring.createFromUri(mnemonicGenerate(), { name: 'Chee Kin' }))
+      }
+      console.log(Keyring.getPairs().length, 'pairs available 2');
 
       dispatch({ type: 'SET_KEYRING', payload: Keyring })
     } catch (e) {

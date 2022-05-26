@@ -35,8 +35,13 @@ const MessageBody = ({ messages, sender, recipientName, commonKey }) => {
   //const senderPairs = keyring.getPairs().find(account => account.address === sender)
   
   const senderPairs = currentAccount
-  console.log('currentAccount', currentAccount)
+  try {
+    senderPairs.unlock()
+  } catch (e) {
+    console.error(e)
+  }
   const senderDecryptedCommonKey = senderPairs.decryptMessage(commonKey, senderPairs.publicKey)
+  console.log('messageBody senderDecryptedCommonKey', senderDecryptedCommonKey)
 
   return (
     <div style={{ overflowY: "auto", height: "400px" }} ref={messageContainerRef}>
