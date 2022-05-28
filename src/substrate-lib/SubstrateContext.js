@@ -118,13 +118,7 @@ const loadAccounts = (state, dispatch) => {
         isTestChain(systemChain)
 
       Keyring.loadAll({ isDevelopment }, allAccounts)
-      
-      console.log(Keyring.getPairs().length, 'pairs available 1');
-      if (Keyring.getPairs().length === 10) {
-        Keyring.addPair(Keyring.createFromUri(mnemonicGenerate(), { name: 'Chee Kin' }))
-      }
-      console.log(Keyring.getPairs().length, 'pairs available 2');
-
+            
       dispatch({ type: 'SET_KEYRING', payload: Keyring })
     } catch (e) {
       console.error(e)

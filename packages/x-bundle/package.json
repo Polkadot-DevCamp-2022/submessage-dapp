@@ -1,0 +1,62 @@
+{
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/common/issues",
+  "contributors": [],
+  "description": "A bundler helper",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/common/tree/master/packages/x-bundle#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/x-bundle",
+  "repository": {
+    "directory": "packages/x-bundle",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/common.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "8.2.3-0",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/runtime": "^7.16.5",
+    "@polkadot/util": "8.2.3-0",
+    "buffer-es6": "^4.9.3"
+  },
+  "exports": {
+    ".": {
+      "require": "./index.cjs",
+      "default": "./index.js"
+    },
+    "./bn.cjs": "./bn.cjs",
+    "./buffer": {
+      "require": "./buffer.cjs",
+      "default": "./buffer.js"
+    },
+    "./buffer.d.ts": "./buffer.d.ts",
+    "./crypto": {
+      "require": "./crypto.cjs",
+      "default": "./crypto.js"
+    },
+    "./crypto.d.ts": "./crypto.d.ts",
+    "./empty": {
+      "require": "./empty.cjs",
+      "default": "./empty.js"
+    },
+    "./empty.d.ts": "./empty.d.ts",
+    "./index.d.ts": "./index.d.ts",
+    "./inherits": {
+      "require": "./inherits.cjs",
+      "default": "./inherits.js"
+    },
+    "./inherits.d.ts": "./inherits.d.ts",
+    "./package.json": "./package.json",
+    "./packageInfo": {
+      "require": "./packageInfo.cjs",
+      "default": "./packageInfo.js"
+    },
+    "./packageInfo.d.ts": "./packageInfo.d.ts",
+    "./README.md": "./README.md"
+  }
+}

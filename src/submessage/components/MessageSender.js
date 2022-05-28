@@ -3,8 +3,7 @@ import { useSubstrateState } from '../../substrate-lib'
 import { Input, Icon, Progress, Label, Container } from 'semantic-ui-react'
 import { stringToU8a, u8aToHex } from '@polkadot/util';
 import { web3FromSource } from "@polkadot/extension-dapp";
-import { naclEncrypt, randomAsU8a } from '@polkadot/util-crypto';
-
+import { naclEncrypt, randomAsU8a, encrypt } from '@polkadot/util-crypto';
 
 const MessageSender = ({ handleReloadMessages, recipient, sender, 
     channelId, commonKey }) => {
@@ -23,21 +22,23 @@ const MessageSender = ({ handleReloadMessages, recipient, sender,
 
         let args;
         if (channelId && commonKey) {
-            const { encrypted, nonce } = naclEncrypt(stringToU8a(message), commonKey);
+            const senderDecryptedCommonKey = currentAccount.decrypt(commonKey)
+            const { encrypted, nonce } = naclEncrypt(stringToU8a(message), senderDecryptedCommonKey);
             args = [u8aToHex(encrypted), u8aToHex(nonce), null, null];
         } else {
             const commonKey = randomAsU8a(32);
-            console.log('New Common Key Generated', u8aToHex(commonKey)); 
+            // console.log('New Common Key Generated', u8aToHex(commonKey)); 
 
             const { encrypted, nonce } = naclEncrypt(stringToU8a(message), commonKey);
             const senderPairs = keyring.getPairs().find(account => account.address === sender )
             const recipientPairs = keyring.getPairs().find(account => account.address === recipient)
-            console.log("senderPairs.publicKey", u8aToHex(senderPairs.publicKey))
-            console.log("recipientPairs.publicKey", u8aToHex(recipientPairs.publicKey))
-            const senderEcryptedCommonKey = senderPairs.encryptMessage(commonKey, senderPairs.publicKey, nonce)
-            console.log("senderEcryptedCommonKey", senderEcryptedCommonKey)
-            const recipientEcryptedCommonKey = senderPairs.encryptMessage(commonKey, recipientPairs.publicKey, nonce)
-            console.log("recipientEcryptedCommonKey", recipientEcryptedCommonKey)
+
+            // console.log("senderPairs.publicKey", u8aToHex(senderPairs.publicKey))
+            // console.log("recipientPairs.publicKey", u8aToHex(recipientPairs.publicKey))
+            const senderEcryptedCommonKey = encrypt(commonKey, senderPairs.publicKey)
+            // console.log("senderEcryptedCommonKey", senderEcryptedCommonKey)
+            const recipientEcryptedCommonKey = encrypt(commonKey, recipientPairs.publicKey)
+            // console.log("recipientEcryptedCommonKey", recipientEcryptedCommonKey)
             args = [u8aToHex(encrypted), u8aToHex(nonce), u8aToHex(senderEcryptedCommonKey), u8aToHex(recipientEcryptedCommonKey)];
         }
 

@@ -1,0 +1,70 @@
+{
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/common/issues",
+  "contributors": [],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/common/tree/master/packages/hw-ledger#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/hw-ledger",
+  "repository": {
+    "directory": "packages/hw-ledger",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/common.git"
+  },
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.cjs"
+  ],
+  "type": "module",
+  "version": "8.2.3-0",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/runtime": "^7.16.5",
+    "@ledgerhq/hw-transport": "^6.20.0",
+    "@polkadot/hw-ledger-transports": "8.2.3-0",
+    "@polkadot/util": "8.2.3-0",
+    "@zondax/ledger-substrate": "^0.23.0"
+  },
+  "exports": {
+    ".": {
+      "require": "./index.cjs",
+      "default": "./index.js"
+    },
+    "./bundle": {
+      "require": "./bundle.cjs",
+      "default": "./bundle.js"
+    },
+    "./bundle.d.ts": "./bundle.d.ts",
+    "./constants": {
+      "require": "./constants.cjs",
+      "default": "./constants.js"
+    },
+    "./constants.d.ts": "./constants.d.ts",
+    "./defaults": {
+      "require": "./defaults.cjs",
+      "default": "./defaults.js"
+    },
+    "./defaults.d.ts": "./defaults.d.ts",
+    "./detectPackage": {
+      "require": "./detectPackage.cjs",
+      "default": "./detectPackage.js"
+    },
+    "./detectPackage.d.ts": "./detectPackage.d.ts",
+    "./index.d.ts": "./index.d.ts",
+    "./package.json": "./package.json",
+    "./packageInfo": {
+      "require": "./packageInfo.cjs",
+      "default": "./packageInfo.js"
+    },
+    "./packageInfo.d.ts": "./packageInfo.d.ts",
+    "./README.md": "./README.md",
+    "./types": {
+      "require": "./types.cjs",
+      "default": "./types.js"
+    },
+    "./types.d.ts": "./types.d.ts"
+  }
+}
