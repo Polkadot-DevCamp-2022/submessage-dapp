@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react'
-import { useSubstrateState } from '../../../substrate-lib'
 import { Container, Message } from 'semantic-ui-react'
 import Avatar from 'react-avatar'
 import { u8aToString } from '@polkadot/util';
@@ -7,7 +6,6 @@ import { naclDecrypt } from '@polkadot/util-crypto';
 import moment from 'moment';
 
 const MessageBody = ({ messages, sender, recipientName, commonKey }) => {
-  const { keyring, currentAccount } = useSubstrateState()
 
   const messageStyle = {
     padding: '.5rem',
@@ -31,22 +29,18 @@ const MessageBody = ({ messages, sender, recipientName, commonKey }) => {
   }
 
   useEffect(scrollToBottom, [messages])
-
   /*
   keyring.getPairs().forEach(( pair ) => {
     // display the locked account status
     console.log(`${pair.meta.name.toUpperCase()} - isLocked? ${pair.isLocked}`);
   });
-  */
- 
-  const senderDecryptedCommonKey = currentAccount.decrypt(commonKey)
-  // console.log('messageBody senderDecryptedCommonKey', senderDecryptedCommonKey)
+  */  
 
   return (
     <div style={{ overflowY: "auto", height: "400px" }} ref={messageContainerRef}>
-      {messages.map(message => {
+      { messages.map(message => {
         const isSender = message.sender.toString() === sender;
-        const text = u8aToString(naclDecrypt(message.content.asEncrypted, message.nonce, senderDecryptedCommonKey))
+        const text = u8aToString(naclDecrypt(message.content.asEncrypted, message.nonce, commonKey))
         if (isSender) {
           return (
             <Container textAlign="right" key={message.id} style={messageContainerStyle}>

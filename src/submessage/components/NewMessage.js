@@ -1,9 +1,9 @@
-import React, { useState } from "react"
 import { useSubstrateState } from '../../substrate-lib'
-import { Form, Input, Icon, Dropdown, Progress, Label } from 'semantic-ui-react'
+import { Form, Dropdown } from 'semantic-ui-react'
 import MessageSender from "./MessageSender"
 
-const NewMessage = ({ handleReloadMessages, sender, recipient, setRecipient, commonKey, channelId }) => {
+const NewMessage = ({ handleReloadMessages, sender, recipient, 
+    setRecipient, commonKey, channelId, getFromAcct }) => {
     const { keyring } = useSubstrateState()
 
     const keyringOptions = keyring.getPairs()
@@ -40,6 +40,7 @@ const NewMessage = ({ handleReloadMessages, sender, recipient, setRecipient, com
                     sender={sender}
                     commonKey={commonKey}
                     channelId={channelId} 
+                    getFromAcct={getFromAcct}
                 />
             </Form.Field>
         </Form>

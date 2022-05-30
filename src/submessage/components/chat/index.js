@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import { useSubstrateState } from '../../../substrate-lib'
 import { Container, Divider, Segment, Header, Icon } from 'semantic-ui-react'
 import MessageHeader from './MessageHeader'
@@ -6,7 +6,8 @@ import MessageBody from './MessageBody'
 import MessageSender from '../MessageSender'
 
 // REF: https://ordinarycoders.com/blog/article/react-chakra-ui
-const Chat = ({ handleReloadMessages, messages, sender, recipient, commonKey, channelId }) => {
+const Chat = ({ handleReloadMessages, messages, sender, 
+  recipient, commonKey, channelId, getFromAcct }) => {
 
   useEffect(() => {
     let unsub,
@@ -52,14 +53,15 @@ const Chat = ({ handleReloadMessages, messages, sender, recipient, commonKey, ch
         <MessageBody messages={messages}
                      sender={sender} 
                      recipientName={keyringOptions[0].name} 
-                     commonKey={commonKey} 
+                     commonKey={commonKey}
                      />
         <Divider />
         <MessageSender handleReloadMessages={handleReloadMessages} 
                        recipient={recipient}
                        sender={sender} 
                        commonKey={commonKey} 
-                       channelId={channelId} />
+                       channelId={channelId}
+                       getFromAcct={getFromAcct} />
       </Container>
     )
   }
